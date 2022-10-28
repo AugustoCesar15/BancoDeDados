@@ -148,11 +148,37 @@ select * from Cliente join indicado on fkCliente = idCliente
 					join Venda on fkClientes = idCliente
 					join VendaProdutos on fkVenda = idVenda
                     join Produto on fkProduto = idProduto;
+                    
+-- Exibir apenas a data da venda, o nome do produto e a quantidade do produto
+-- numa determinada venda.
+
+select v.DataHora, p.nome, q.Quantidade from Venda as v join vendaProdutos as q on idVenda = fkVenda
+	join Produto as p on idProduto = fkProduto;
 
 
+--  Exibir apenas o nome do produto, o valor do produto e a soma da quantidade de
+-- produtos vendidos agrupados pelo nome do produto.
+select p.nome, p.preco, sum(v.Quantidade) as Soma from produto as p join vendaProdutos as v on fkProduto = idProduto;
+
+-- Inserir dados de um novo cliente. Exibir os dados dos clientes, das respectivas
+-- vendas, e os clientes que não realizaram nenhuma venda.
+insert into Cliente values (null, 'C. S. Lewis', 'ascronicasdenarnia@faladejesus.com');
+
+select * from Cliente left join Venda on idCliente = fkClientes;
+
+-- Exibir o valor mínimo e o valor máximo dos preços dos produtos;
+select min(Preco) as Minimo, max(Preco) as Maximo from Produto;
 
 
+-- Exibir a soma e a média dos preços dos produtos;
+select sum(Preco) as Soma, avg(Preco) as Média from Produto;
+
+-- Exibir a quantidade de preços acima da média entre todos os produtos;
+select preco > avg(Preco) as Acima from Produto;
 
 
+-- Exibir a soma dos preços distintos dos produtos;
+select distinct(sum(Preco)) as SomaDistinta from Produto;
 
-
+-- Exibir a soma dos preços dos produtos agrupado por uma determinada venda;
+select p.nome, sum(p.preco), v.quantidade from vendaProdutos as v join Produto as p on fkProduto = idProduto;
